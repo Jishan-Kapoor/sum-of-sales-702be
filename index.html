@@ -21,19 +21,34 @@
 <body>
     <h1>Sales Summary 425c26003ca31fe6c78e26a606f9e30a</h1>
     <p>Total Sales: <span id="total-sales">Calculating...</span></p>
-    
+    <table id="product-sales" class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Total Sales</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
     <script>
         fetch('data.csv')
             .then(response => response.text())
             .then(data => {
                 const rows = data.trim().split('\n');
                 let total = 0;
+                const productSales = new Map();
+
                 rows.forEach(row => {
                     const columns = row.split(',');
                     if (columns.length > 1 && !isNaN(parseFloat(columns[1].trim()))) {
-                        total += parseFloat(columns[1].trim());
+                        const productName = columns[0].trim();
+                        const productSalesValue = parseFloat(columns[1].trim());
+                        total += productSalesValue;
+                        productSales.set(productName, (productSales.get(productName) || 0) + productSalesValue);
                     }
                 });
+
                 document.getElementById('total-sales').textContent = total;
 
                 const seed = '425c26003ca31fe6c78e26a606f9e30a';
@@ -41,11 +56,24 @@
 
                 document.title = `Sales Summary ${seed}`;
 
-                if (!!document.querySelector("link[href*='bootstrap']") && Math.abs(parseFloat(document.querySelector("#total-sales").textContent) - result) < 0.01) {
-                    console.log('Page loaded successfully.');
+                if (!!document.querySelector("link[href*='bootstrap']") &&
+                    Math.abs(parseFloat(document.querySelector("#total-sales").textContent) - result) < 0.01 &&
+                    document.querySelectorAll("#product-sales tbody tr").length >= 1 &&
+                    (() => {
+                        const rows = [...document.querySelectorAll("#product-sales tbody tr td:last-child")];
+                        const sum = rows.reduce((acc, cell) => acc + parseFloat(cell.textContent), 0);
+                        return Math.abs(sum - ${result}) < 0.01;
+                    })()) {
+                        console.log('Page loaded successfully.');
                 } else {
                     console.error('Error loading page.');
                 }
+
+                productSales.forEach((value, key) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<td>${key}</td><td>${value}</td>`;
+                    document.querySelector('#product-sales tbody').appendChild(row);
+                });
             });
     </script>
 </body>
