@@ -1,7 +1,7 @@
 # Sales Summary 425c26003ca31fe6c78e26a606f9e30a
 
 ## Summary
-This is a static web app that fetches data from a CSV file, calculates the total sales amount, and displays it on a single-page site.
+This is a static web app that fetches data from a CSV file, calculates the total sales amount, displays it on a single-page site, and includes a Bootstrap table #product-sales listing each product with its total sales. The #total-sales is kept accurate after rendering.
 
 ## Setup
 To deploy this app on GitHub Pages, follow these steps:
@@ -15,7 +15,7 @@ To deploy this app on GitHub Pages, follow these steps:
 Access the page by visiting `https://your-username.github.io/repository-name`. You can add query parameters to filter or manipulate the data shown on the page.
 
 ## Code Explanation
-The app uses JavaScript to fetch the data.csv file and parse it into an array of objects, handling trailing newlines and empty rows. It then calculates the total sales by summing the sales column and displays it inside the `#total-sales` element. Bootstrap 5 is loaded from jsdelivr to enhance the page layout.
+The app uses JavaScript to fetch the data.csv file and parse it into an array of objects, handling trailing newlines and empty rows. It then calculates the total sales by summing the sales column and displays it inside the `#total-sales` element. Bootstrap 5 is loaded from jsdelivr to enhance the page layout. The new feature includes a Bootstrap table `#product-sales` that lists each product with its total sales, ensuring that `#total-sales` remains accurate after rendering.
 
 ## License
 This project is licensed under the MIT License.
